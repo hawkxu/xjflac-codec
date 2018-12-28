@@ -13,6 +13,7 @@ package win.zqxu.xjflac;
  *         Preferences - Java - Code Generation - Code and Comments
  */
 public class FrameDecodeException extends Exception {
+  private static final long serialVersionUID = 1L;
 
   /**
    * Constructor.

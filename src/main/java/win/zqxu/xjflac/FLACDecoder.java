@@ -246,13 +246,13 @@ public class FLACDecoder {
    */
   public Metadata[] readMetadata() throws IOException {
     readStreamSync();
-    Vector metadataList = new Vector();
+    Vector<Metadata> metadataList = new Vector<>();
     Metadata metadata;
     do {
       metadata = readNextMetadata();
       metadataList.add(metadata);
     } while (!metadata.isLast());
-    return (Metadata[]) metadataList.toArray(new Metadata[0]);
+    return metadataList.toArray(new Metadata[0]);
   }
 
   /**
@@ -266,13 +266,13 @@ public class FLACDecoder {
    */
   public Metadata[] readMetadata(StreamInfo streamInfo) throws IOException {
     if (streamInfo.isLast()) return new Metadata[0];
-    Vector metadataList = new Vector();
+    Vector<Metadata> metadataList = new Vector<>();
     Metadata metadata;
     do {
       metadata = readNextMetadata();
       metadataList.add(metadata);
     } while (!metadata.isLast());
-    return (Metadata[]) metadataList.toArray(new Metadata[0]);
+    return metadataList.toArray(new Metadata[0]);
   }
 
   /**
@@ -865,8 +865,11 @@ public class FLACDecoder {
   private void skipID3v2Tag() throws IOException {
 
     // skip the version and flags bytes
+    @SuppressWarnings("unused")
     int verMajor = bitStream.readRawInt(8);
+    @SuppressWarnings("unused")
     int verMinor = bitStream.readRawInt(8);
+    @SuppressWarnings("unused")
     int flags = bitStream.readRawInt(8);
 
     // get the size (in bytes) to skip
@@ -942,6 +945,7 @@ public class FLACDecoder {
    *           On frame decoding error
    */
   public void readFrame() throws IOException, FrameDecodeException {
+    @SuppressWarnings("unused")
     boolean gotAFrame = false;
     int channel;
     int i;

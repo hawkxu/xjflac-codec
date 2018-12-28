@@ -27,7 +27,7 @@ package win.zqxu.xjflac;
  */
 public class FixedPredictor {
 
-  private static final double M_LN2 = 0.69314718055994530942;
+//  private static final double M_LN2 = 0.69314718055994530942;
 
   /**
    * Compute the residual from the compressed signal.

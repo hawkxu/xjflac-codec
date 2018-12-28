@@ -1,88 +1,85 @@
 package win.zqxu.xjflac;
 
-import win.zqxu.xjflac.frame.EntropyPartitionedRiceContents;
-import win.zqxu.xjflac.io.BitOutputStream;
-
 public class FLACEncoder {
 
-  private static final int ENCODER_IN_MAGIC = 0;
-  private static final int ENCODER_IN_METADATA = 1;
-  private static final int ENCODER_IN_AUDIO = 2;
+//  private static final int ENCODER_IN_MAGIC = 0;
+//  private static final int ENCODER_IN_METADATA = 1;
+//  private static final int ENCODER_IN_AUDIO = 2;
 
   // stream encoder states
 
-  private static final int STREAM_ENCODER_OK = 0;
+//  private static final int STREAM_ENCODER_OK = 0;
   /** < The encoder is in the normal OK state. */
 
-  private static final int STREAM_ENCODER_VERIFY_DECODER_ERROR = 1;
+//  private static final int STREAM_ENCODER_VERIFY_DECODER_ERROR = 1;
   /**
    * < An error occurred in the underlying verify stream decoder; check
    * stream_encoder_get_verify_decoder_state().
    */
 
-  private static final int STREAM_ENCODER_VERIFY_MISMATCH_IN_AUDIO_DATA = 2;
+//  private static final int STREAM_ENCODER_VERIFY_MISMATCH_IN_AUDIO_DATA = 2;
   /**
    * < The verify decoder detected a mismatch between the original audio signal
    * and the decoded audio signal.
    */
 
-  private static final int STREAM_ENCODER_INVALID_CALLBACK = 3;
+//  private static final int STREAM_ENCODER_INVALID_CALLBACK = 3;
   /**
    * < The encoder was initialized before setting all the required callbacks.
    */
 
-  private static final int STREAM_ENCODER_INVALID_NUMBER_OF_CHANNELS = 4;
+//  private static final int STREAM_ENCODER_INVALID_NUMBER_OF_CHANNELS = 4;
   /** < The encoder has an invalid setting for number of channels. */
 
-  private static final int STREAM_ENCODER_INVALID_BITS_PER_SAMPLE = 5;
+//  private static final int STREAM_ENCODER_INVALID_BITS_PER_SAMPLE = 5;
   /**
    * < The encoder has an invalid setting for bits-per-sample. FLAC supports
    * 4-32 bps but the reference encoder currently supports only up to 24 bps.
    */
 
-  private static final int STREAM_ENCODER_INVALID_SAMPLE_RATE = 6;
+//  private static final int STREAM_ENCODER_INVALID_SAMPLE_RATE = 6;
   /** < The encoder has an invalid setting for the input sample rate. */
 
-  private static final int STREAM_ENCODER_INVALID_BLOCK_SIZE = 7;
+//  private static final int STREAM_ENCODER_INVALID_BLOCK_SIZE = 7;
   /** < The encoder has an invalid setting for the block size. */
 
-  private static final int STREAM_ENCODER_INVALID_MAX_LPC_ORDER = 8;
+//  private static final int STREAM_ENCODER_INVALID_MAX_LPC_ORDER = 8;
   /** < The encoder has an invalid setting for the maximum LPC order. */
 
-  private static final int STREAM_ENCODER_INVALID_QLP_COEFF_PRECISION = 9;
+//  private static final int STREAM_ENCODER_INVALID_QLP_COEFF_PRECISION = 9;
   /**
    * < The encoder has an invalid setting for the precision of the quantized
    * linear predictor coefficients.
    */
 
-  private static final int STREAM_ENCODER_MID_SIDE_CHANNELS_MISMATCH = 10;
+//  private static final int STREAM_ENCODER_MID_SIDE_CHANNELS_MISMATCH = 10;
   /**
    * < Mid/side coding was specified but the number of channels is not equal to
    * 2.
    */
 
-  private static final int STREAM_ENCODER_MID_SIDE_SAMPLE_SIZE_MISMATCH = 11;
+//  private static final int STREAM_ENCODER_MID_SIDE_SAMPLE_SIZE_MISMATCH = 11;
   /** < Deprecated. */
 
-  private static final int STREAM_ENCODER_ILLEGAL_MID_SIDE_FORCE = 12;
+//  private static final int STREAM_ENCODER_ILLEGAL_MID_SIDE_FORCE = 12;
   /** < Loose mid/side coding was specified but mid/side coding was not. */
 
-  private static final int STREAM_ENCODER_BLOCK_SIZE_TOO_SMALL_FOR_LPC_ORDER = 13;
+//  private static final int STREAM_ENCODER_BLOCK_SIZE_TOO_SMALL_FOR_LPC_ORDER = 13;
   /** < The specified block size is less than the maximum LPC order. */
 
-  private static final int STREAM_ENCODER_NOT_STREAMABLE = 14;
+//  private static final int STREAM_ENCODER_NOT_STREAMABLE = 14;
   /**
    * < The encoder is bound to the "streamable subset" but other settings
    * violate it.
    */
 
-  private static final int STREAM_ENCODER_FRAMING_ERROR = 15;
+//  private static final int STREAM_ENCODER_FRAMING_ERROR = 15;
   /**
    * < An error occurred while writing the stream; usually, the write_callback
    * returned an error.
    */
 
-  private static final int STREAM_ENCODER_INVALID_METADATA = 16;
+//  private static final int STREAM_ENCODER_INVALID_METADATA = 16;
   /**
    * < The metadata input to the encoder is invalid, in one of the following
    * ways: - stream_encoder_set_metadata() was called with a null pointer but a
@@ -93,19 +90,19 @@ public class FLACEncoder {
    * block
    */
 
-  private static final int STREAM_ENCODER_FATAL_ERROR_WHILE_ENCODING = 17;
+//  private static final int STREAM_ENCODER_FATAL_ERROR_WHILE_ENCODING = 17;
   /**
    * < An error occurred while writing the stream; usually, the write_callback
    * returned an error.
    */
 
-  private static final int STREAM_ENCODER_FATAL_ERROR_WHILE_WRITING = 18;
+//  private static final int STREAM_ENCODER_FATAL_ERROR_WHILE_WRITING = 18;
   /** < The write_callback returned an error. */
 
-  private static final int STREAM_ENCODER_MEMORY_ALLOCATION_ERROR = 19;
+//  private static final int STREAM_ENCODER_MEMORY_ALLOCATION_ERROR = 19;
   /** < Memory allocation failed. */
 
-  private static final int STREAM_ENCODER_ALREADY_INITIALIZED = 20;
+//  private static final int STREAM_ENCODER_ALREADY_INITIALIZED = 20;
   /**
    * < stream_encoder_init() was called when the encoder was already
    * initialized, usually because stream_encoder_finish() was not called.
@@ -159,35 +156,35 @@ public class FLACEncoder {
    *
    ***********************************************************************/
 
-  private static final String StreamEncoderStateString[] = new String[]{
-      "STREAM_ENCODER_OK",
-      "STREAM_ENCODER_VERIFY_DECODER_ERROR",
-      "STREAM_ENCODER_VERIFY_MISMATCH_IN_AUDIO_DATA",
-      "STREAM_ENCODER_INVALID_CALLBACK",
-      "STREAM_ENCODER_INVALID_NUMBER_OF_CHANNELS",
-      "STREAM_ENCODER_INVALID_BITS_PER_SAMPLE",
-      "STREAM_ENCODER_INVALID_SAMPLE_RATE",
-      "STREAM_ENCODER_INVALID_BLOCK_SIZE",
-      "STREAM_ENCODER_INVALID_MAX_LPC_ORDER",
-      "STREAM_ENCODER_INVALID_QLP_COEFF_PRECISION",
-      "STREAM_ENCODER_MID_SIDE_CHANNELS_MISMATCH",
-      "STREAM_ENCODER_MID_SIDE_SAMPLE_SIZE_MISMATCH",
-      "STREAM_ENCODER_ILLEGAL_MID_SIDE_FORCE",
-      "STREAM_ENCODER_BLOCK_SIZE_TOO_SMALL_FOR_LPC_ORDER",
-      "STREAM_ENCODER_NOT_STREAMABLE",
-      "STREAM_ENCODER_FRAMING_ERROR",
-      "STREAM_ENCODER_INVALID_METADATA",
-      "STREAM_ENCODER_FATAL_ERROR_WHILE_ENCODING",
-      "STREAM_ENCODER_FATAL_ERROR_WHILE_WRITING",
-      "STREAM_ENCODER_MEMORY_ALLOCATION_ERROR",
-      "STREAM_ENCODER_ALREADY_INITIALIZED",
-      "STREAM_ENCODER_UNINITIALIZED"
-  };
+//  private static final String StreamEncoderStateString[] = new String[]{
+//      "STREAM_ENCODER_OK",
+//      "STREAM_ENCODER_VERIFY_DECODER_ERROR",
+//      "STREAM_ENCODER_VERIFY_MISMATCH_IN_AUDIO_DATA",
+//      "STREAM_ENCODER_INVALID_CALLBACK",
+//      "STREAM_ENCODER_INVALID_NUMBER_OF_CHANNELS",
+//      "STREAM_ENCODER_INVALID_BITS_PER_SAMPLE",
+//      "STREAM_ENCODER_INVALID_SAMPLE_RATE",
+//      "STREAM_ENCODER_INVALID_BLOCK_SIZE",
+//      "STREAM_ENCODER_INVALID_MAX_LPC_ORDER",
+//      "STREAM_ENCODER_INVALID_QLP_COEFF_PRECISION",
+//      "STREAM_ENCODER_MID_SIDE_CHANNELS_MISMATCH",
+//      "STREAM_ENCODER_MID_SIDE_SAMPLE_SIZE_MISMATCH",
+//      "STREAM_ENCODER_ILLEGAL_MID_SIDE_FORCE",
+//      "STREAM_ENCODER_BLOCK_SIZE_TOO_SMALL_FOR_LPC_ORDER",
+//      "STREAM_ENCODER_NOT_STREAMABLE",
+//      "STREAM_ENCODER_FRAMING_ERROR",
+//      "STREAM_ENCODER_INVALID_METADATA",
+//      "STREAM_ENCODER_FATAL_ERROR_WHILE_ENCODING",
+//      "STREAM_ENCODER_FATAL_ERROR_WHILE_WRITING",
+//      "STREAM_ENCODER_MEMORY_ALLOCATION_ERROR",
+//      "STREAM_ENCODER_ALREADY_INITIALIZED",
+//      "STREAM_ENCODER_UNINITIALIZED"
+//  };
 
-  private static final String StreamEncoderWriteStatusString[] = new String[]{
-      "STREAM_ENCODER_WRITE_STATUS_OK",
-      "STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR"
-  };
+//  private static final String StreamEncoderWriteStatusString[] = new String[]{
+//      "STREAM_ENCODER_WRITE_STATUS_OK",
+//      "STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR"
+//  };
 
   /***********************************************************************
    *

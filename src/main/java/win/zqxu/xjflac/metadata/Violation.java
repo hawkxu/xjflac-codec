@@ -26,6 +26,7 @@ package win.zqxu.xjflac.metadata;
  * @author kc7bfi
  */
 public class Violation extends Exception {
+  private static final long serialVersionUID = 1L;
 
   /**
    * Constructor.

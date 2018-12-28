@@ -18,7 +18,7 @@ import win.zqxu.xjflac.metadata.Metadata;
  * @author kc7bfi
  */
 class FrameListeners implements FrameListener {
-  private HashSet frameListeners = new HashSet();
+  private HashSet<FrameListener> frameListeners = new HashSet<>();
 
   /**
    * Add a frame listener.
@@ -53,7 +53,7 @@ class FrameListeners implements FrameListener {
    */
   public void processMetadata(Metadata metadata) {
     synchronized (frameListeners) {
-      Iterator it = frameListeners.iterator();
+      Iterator<FrameListener> it = frameListeners.iterator();
       while (it.hasNext()) {
         FrameListener listener = (FrameListener) it.next();
         listener.processMetadata(metadata);
@@ -70,7 +70,7 @@ class FrameListeners implements FrameListener {
    */
   public void processFrame(Frame frame) {
     synchronized (frameListeners) {
-      Iterator it = frameListeners.iterator();
+      Iterator<FrameListener> it = frameListeners.iterator();
       while (it.hasNext()) {
         FrameListener listener = (FrameListener) it.next();
         listener.processFrame(frame);
@@ -87,7 +87,7 @@ class FrameListeners implements FrameListener {
    */
   public void processError(String msg) {
     synchronized (frameListeners) {
-      Iterator it = frameListeners.iterator();
+      Iterator<FrameListener> it = frameListeners.iterator();
       while (it.hasNext()) {
         FrameListener listener = (FrameListener) it.next();
         listener.processError(msg);

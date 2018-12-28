@@ -21,6 +21,7 @@ package win.zqxu.xjflac.metadata;
  */
 
 import java.io.IOException;
+import java.util.Vector;
 
 import win.zqxu.xjflac.io.BitInputStream;
 
@@ -82,7 +83,7 @@ public class VorbisComment extends Metadata {
 
   public String[] getCommentByName(String key) {
     if (numComments == 0 || key == null) return null;
-    java.util.Vector sbuff = new java.util.Vector();
+    Vector<String> sbuff = new Vector<>();
     for (int i = 0; i < comments.length; i++) {
       String comment = comments[i].toString();
       int eqpos = comment.indexOf(0x3D); // Find the equals
@@ -90,7 +91,7 @@ public class VorbisComment extends Metadata {
         if (comment.substring(0, eqpos).equalsIgnoreCase(key))
           sbuff.add(comment.substring(eqpos + 1, comment.length()));
     }
-    return (String[]) sbuff.toArray(new String[0]);
+    return sbuff.toArray(new String[0]);
     // return null;
   }
 

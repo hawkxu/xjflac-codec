@@ -66,6 +66,7 @@ public class PCMDecoder {
     boolean isUnsignedSamples = (bps <= 8);
     int wideSamples = frame.header.blockSize;
     int wideSample;
+    @SuppressWarnings("unused")
     int sample;
     int channel;
 

@@ -53,7 +53,9 @@ public class WavWriter {
                                                                                     * 2
                                                                                     * megs
                                                                                     */
+  @SuppressWarnings("unused")
   private int samplesProcessed = 0;
+  @SuppressWarnings("unused")
   private int frameCounter = 0;
 
   private DataOutput os;
