@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
 
 import win.zqxu.xjflac.metadata.StreamInfo;
 
@@ -46,8 +45,7 @@ public class FlacAudioFormat extends AudioFormat {
   public FlacAudioFormat(StreamInfo streamInfo) {
     super(FlacEncoding.FLAC, streamInfo.getSampleRate(),
         streamInfo.getBitsPerSample(), streamInfo.getChannels(),
-        /* streamInfo.maxFrameSize */AudioSystem.NOT_SPECIFIED,
-        AudioSystem.NOT_SPECIFIED, false);
+        streamInfo.getChannels() * 2, streamInfo.getSampleRate(), false);
     props = new HashMap<String, Object>();
     props.put(KEY_FRAMESIZE_MIN, streamInfo.getMinFrameSize());
     props.put(KEY_FRAMESIZE_MAX, streamInfo.getMaxFrameSize());

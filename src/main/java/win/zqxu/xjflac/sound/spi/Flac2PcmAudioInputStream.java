@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
 
 import win.zqxu.xjflac.FLACDecoder;
 import win.zqxu.xjflac.PCMProcessor;
@@ -152,4 +153,8 @@ public class Flac2PcmAudioInputStream extends RingedAudioInputStream implements
     return metaData;
   }
 
+  @Override
+  public long getFrameLength() {
+    return ((AudioInputStream) in).getFrameLength();
+  }
 }

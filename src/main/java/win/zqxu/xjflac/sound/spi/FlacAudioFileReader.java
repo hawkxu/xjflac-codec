@@ -65,12 +65,8 @@ public class FlacAudioFileReader extends AudioFileReader {
    */
   public AudioFileFormat getAudioFileFormat(File file)
       throws UnsupportedAudioFileException, IOException {
-    InputStream inputStream = null;
-    try {
-      inputStream = new FileInputStream(file);
-      return getAudioFileFormat(inputStream, (int) file.length());
-    } finally {
-      if (inputStream != null) inputStream.close();
+    try (InputStream stream = new FileInputStream(file)) {
+      return getAudioFileFormat(stream, (int) file.length());
     }
   }
 
@@ -90,11 +86,8 @@ public class FlacAudioFileReader extends AudioFileReader {
    */
   public AudioFileFormat getAudioFileFormat(URL url)
       throws UnsupportedAudioFileException, IOException {
-    InputStream inputStream = url.openStream();
-    try {
-      return getAudioFileFormat(inputStream);
-    } finally {
-      inputStream.close();
+    try (InputStream stream = url.openStream()) {
+      return getAudioFileFormat(stream);
     }
   }
 
@@ -253,8 +246,9 @@ public class FlacAudioFileReader extends AudioFileReader {
           / streamInfo.getSampleRate();
       props.put(KEY_DURATION, duration);
     }
-    return new AudioFileFormat(FlacFileFormatType.FLAC, format, (int) streamInfo.getTotalSamples(),
-        props);
+    long seconds = streamInfo.getTotalSamples() / streamInfo.getSampleRate();
+    float frameLength = seconds * format.getFrameSize() * format.getFrameRate();
+    return new AudioFileFormat(FlacFileFormatType.FLAC, format, (int) frameLength, props);
   }
 
   /**
